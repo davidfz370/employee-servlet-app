@@ -2,12 +2,13 @@ package com.david.dao;
 
 import java.util.List;
 
-import javax.transaction.Transaction;
-
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.david.models.Employee;
 import com.david.util.HibernateUtil;
+
+//servlet 
 
 public class EmployeeDao {
 	
@@ -20,7 +21,8 @@ public class EmployeeDao {
 		
 		Session ses  = HibernateUtil.getSession();
 		
-		org.hibernate.Transaction tx = ses.beginTransaction();
+		
+		Transaction tx = ses.beginTransaction();
 		
 		//capture pk
 		int pk = (int) ses.save(e);
@@ -32,7 +34,14 @@ public class EmployeeDao {
 	//Read
 	
 	public List<Employee> findAll(){
+		//grab the session
 		
+		Session ses = HibernateUtil.getSession();
+		
+		//make an HQL (Query Language)
+		List<Employee> emps = ses.createQuery("from Employee", Employee.class).list();
+		
+		return emps;
 		
 	}
 	
@@ -43,7 +52,7 @@ public class EmployeeDao {
 	
 	public boolean update(Employee e) {
 		
-		
+		return false;
 	}
 
 }
