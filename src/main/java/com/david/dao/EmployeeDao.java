@@ -27,6 +27,8 @@ public class EmployeeDao {
 		//capture pk
 		int pk = (int) ses.save(e);
 		
+		tx.commit();
+		
 		return pk;
 		
 	}

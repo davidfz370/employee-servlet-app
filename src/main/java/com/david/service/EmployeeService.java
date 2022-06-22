@@ -7,50 +7,55 @@ import com.david.dao.EmployeeDao;
 import com.david.models.Employee;
 
 public class EmployeeService {
-
+	
 	private EmployeeDao edao;
 	
-	/*
+	/**
+	 * Dependency Injection via Constructor Injection
 	 * 
-	 * Dependency injection via Constructor Injection 
-	 * 
-	 * Constructor Injection is a way of ensuring that the employees
+	 * Constructor Injection is a sophisticated way of ensuring 
 	 * that the EmployeeService object ALWAYS has an EmployeeDao object
 	 * 
 	 */
-	
 	public EmployeeService(EmployeeDao edao) {
 		
-		
 		this.edao = edao;
-	
-	
-	}
-	/*
-	 * 
-	 * our servlet will pass the username and the password to this
-	 * method invocation
-	 */
-	
-	public Employee confirmLogin(String username, String password){
 		
-		//stream through all the employees that are returned
+	}
+	
+	/**
+	 * Our Servlet will pass the username and the password to this method invocation
+	 * @param username
+	 * @param password
+	 * @return
+	 */
+	public Employee confirmLogin(String username, String password) {
+		
+		// let's stream through all the employees that are returned
 		Optional<Employee> possibleEmp = edao.findAll().stream()
-				.filter(e->(e.getUsername().equals(username)&& e.getPassword().equals(password)))
+				.filter(e -> (e.getUsername().equals(username) && e.getPassword().equals(password)))
 				.findFirst();
 		
-		//if employee is present then return it, otherwise return empty object (id=0)
-		
-		
-		return(possibleEmp.isPresent()? possibleEmp.get() : new Employee());
-		//ideally you should optimize this and set up a custom exception to be returned
-		
+		// IF the employee is present, return it, otherwise return empty Emp object (with id of 0)
+		return (possibleEmp.isPresent() ? possibleEmp.get() : new Employee());
+		// ideally you should optimize this and set up a custom exception to be returned
 	}
 	
-	public List<Employee>getAll(){
+	public List<Employee> getAll() {
 		
 		return edao.findAll();
+		
+	}
+	
+	//the service method returns the PK
+	public int register(Employee e) {
+		
+		//dao method returns the PK
+		return edao.insert(e);
+		
 	}
 	
 	
+	
+
 }
